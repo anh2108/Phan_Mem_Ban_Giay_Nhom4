@@ -153,7 +153,6 @@ public class NhanVien {
     }
 
     
-    
     public Object[] toDataRow(){
            return new Object[]{
                this.id,

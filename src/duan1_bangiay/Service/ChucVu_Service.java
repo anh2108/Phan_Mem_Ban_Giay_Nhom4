@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ChucVu_Service {
     Connection con = null;
     PreparedStatement ps = null;

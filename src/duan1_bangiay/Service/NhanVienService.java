@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class NhanVienService {
     Connection con = null;
     PreparedStatement ps = null;

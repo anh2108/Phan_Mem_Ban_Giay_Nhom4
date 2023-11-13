@@ -72,8 +72,7 @@ public class ChucVu {
         this.ngaySua = ngaySua;
     }
 
-    
-    
+
     public Object[] toDataRow(){
         return new Object[]{
             this.id,
