@@ -1,7 +1,7 @@
 package duan1_bangiay.Service;
 
 import duan1_bangiay.Model.KhachHang;
-import duan1_bangiay.Repository.DBconnect;
+import duan1_bangiay.Repository.DB_Connect;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class KhachHangService {
         sql = "SELECT KhachHang.id, KhachHang.HoTen, GioiTinh, SoDt, Email, KhachHang.NgayTao, KhachHang.NgaySua, ThanhPho FROM KhachHang JOIN DiaChi ON KhachHang.id_DiaChi = DiaChi.id";
         List<KhachHang> listkh = new ArrayList<>();
         try {
-            con = DBconnect.getConnection();
+            con = DB_Connect.getConnection();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -35,7 +35,7 @@ public class KhachHangService {
         sql = "SELECT KhachHang.id, KhachHang.HoTen, GioiTinh, SoDt, Email, KhachHang.NgayTao, KhachHang.NgaySua, ThanhPho FROM KhachHang JOIN DiaChi ON KhachHang.id_DiaChi = DiaChi.id WHERE KhachHang.id = ?";
         KhachHang kh = new KhachHang();
         try {
-            con = DBconnect.getConnection();
+            con = DB_Connect.getConnection();
             ps = con.prepareStatement(sql);
             ps.setObject(1, id);
             rs = ps.executeQuery();
@@ -52,7 +52,7 @@ public class KhachHangService {
     public int insert(KhachHang kh) {
         sql = "INSERT INTO KhachHang(HoTen, GioiTinh, SoDt, Email, NguoiTao, NguoiSua, NgayTao, NgaySua, id_DiaChi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            con = DBconnect.getConnection();
+            con = DB_Connect.getConnection();
             ps = con.prepareStatement(sql);
             ps.setObject(1, kh.getName());
             ps.setObject(2, kh.isGender());
@@ -73,7 +73,7 @@ public class KhachHangService {
     public int update(KhachHang kh, int id) {
         sql = "UPDATE KhachHang SET HoTen = ?, GioiTinh = ?, SoDt = ?, Email = ?, NguoiTao = ?, NguoiSua = ?, NgayTao = ?, NgaySua = ? WHERE id = ?";
         try {
-            con = DBconnect.getConnection();
+            con = DB_Connect.getConnection();
             ps = con.prepareStatement(sql);
             ps.setObject(1, kh.getName());
             ps.setObject(2, kh.isGender());
@@ -94,7 +94,7 @@ public class KhachHangService {
     public int delete(int id) {
         sql = "DELETE FROM KhachHang WHERE id = ?";
         try {
-            con = DBconnect.getConnection();
+            con = DB_Connect.getConnection();
             ps = con.prepareStatement(sql);
             ps.setObject(1, id);
             return ps.executeUpdate();
