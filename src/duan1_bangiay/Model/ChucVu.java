@@ -3,7 +3,6 @@ package duan1_bangiay.Model;
 
 import java.util.Date;
 
-
 public class ChucVu {
     private int id;
     private boolean chucVu;

@@ -9,21 +9,21 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NhanVienService {
+public class NhanVien_Service {
     Connection con = null;
     PreparedStatement ps = null;
     String sql = null;
     ResultSet rs = null;
     
     public List<NhanVien> getAll(){
-        sql = "SELECT id, id_ChucVu, MaNhanVien, HoTen, SoDt, Email, MatKhau, MaOtp, DiaChi, TrangThai, NguoiTao, NguoiSua, NgayTao, NgaySua";
+        sql = "SELECT id, id_ChucVu, MaNhanVien, HoTen, SoDt, Email, MatKhau, MaOtp, DiaChi, TrangThai, NguoiTao, NguoiSua, NgayTao, NgaySua FROM NhanVien";
         List<NhanVien> listnv = new ArrayList();
         try {
             con = DBConnect.getConnection();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while(rs.next()){
-                NhanVien nv = new NhanVien(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getBoolean(10), rs.getInt(11), rs.getInt(12), rs.getDate(13), rs.getDate(14));
+                NhanVien nv = new NhanVien(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11), rs.getInt(12), rs.getDate(13), rs.getDate(14));
                 listnv.add(nv);
             }
             return listnv;
@@ -41,7 +41,7 @@ public class NhanVienService {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while(rs.next()){
-                nv = new NhanVien(rs.getInt(1), rs.getInt(2), rs.getString(3),rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getBoolean(10), rs.getInt(11), rs.getInt(12), rs.getDate(13), rs.getDate(14));
+                nv = new NhanVien(rs.getInt(1), rs.getInt(2), rs.getString(3),rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11), rs.getInt(12), rs.getDate(13), rs.getDate(14));
             }
             return nv;
         } catch (Exception e) {

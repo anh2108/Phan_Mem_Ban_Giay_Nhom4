@@ -14,7 +14,7 @@ public class NhanVien {
     private String matKhau;
     private String maOTP;
     private String diaChi;
-    private boolean trangThai;
+    private String trangThai;
     private int nguoiTao;
     private int nguoiSua;
     private Date ngayTao;
@@ -23,7 +23,7 @@ public class NhanVien {
     public NhanVien() {
     }
 
-    public NhanVien(int id, int id_ChucVu, String maNV, String hoTen, String SDT, String email, String matKhau, String maOTP, String diaChi, boolean trangThai, int nguoiTao, int nguoiSua, Date ngayTao, Date ngaySua) {
+    public NhanVien(int id, int id_ChucVu, String maNV, String hoTen, String SDT, String email, String matKhau, String maOTP, String diaChi, String trangThai, int nguoiTao, int nguoiSua, Date ngayTao, Date ngaySua) {
         this.id = id;
         this.id_ChucVu = id_ChucVu;
         this.maNV = maNV;
@@ -112,11 +112,11 @@ public class NhanVien {
         this.diaChi = diaChi;
     }
 
-    public boolean isTrangThai() {
+    public String isTrangThai() {
         return trangThai;
     }
 
-    public void setTrangThai(boolean trangThai) {
+    public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
     }
 
