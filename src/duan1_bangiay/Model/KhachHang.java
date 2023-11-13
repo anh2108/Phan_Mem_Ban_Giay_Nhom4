@@ -19,13 +19,12 @@ public class KhachHang {
     public KhachHang() {
     }
 
-    public KhachHang(int id, String name, boolean gender, String phone, String email, int createBy, Date createAt, Date updateAt, String city) {
+    public KhachHang(int id, String name, boolean gender, String phone, String email, Date createAt, Date updateAt, String city) {
         this.id = id;
         this.name = name;
         this.gender = gender;
         this.phone = phone;
         this.email = email;
-        this.createBy = createBy;
         this.createAt = createAt;
         this.updateAt = updateAt;
         this.city = city;
