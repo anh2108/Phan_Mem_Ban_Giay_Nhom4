@@ -1,6 +1,6 @@
 package duan1_bangiay.View;
+
 import duan1_bangiay.Model.KhachHang;
-import duan1_bangiay.Model.DiaChiService;
 import duan1_bangiay.Service.KhachHangService;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -11,12 +11,14 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+
 public class FrameKH extends javax.swing.JFrame {
-private DefaultTableModel dtm = new DefaultTableModel();
+
+    private DefaultTableModel dtm = new DefaultTableModel();
     private KhachHangService khs = new KhachHangService();
     private KhachHang kh = new KhachHang();
-    private DiaChiService dcs = new DiaChiService();
     private DiaChi dc = new DiaChi();
+
     public FrameKH() {
         initComponents();
         cboAddress.removeAllItems();
@@ -42,7 +44,8 @@ private DefaultTableModel dtm = new DefaultTableModel();
         }
         fillTable(khs.getAll());
     }
-void fillTable(List<KhachHang> listkh) {
+
+    void fillTable(List<KhachHang> listkh) {
         dtm = (DefaultTableModel) tblQLKH.getModel();
         dtm.setRowCount(0);
         for (KhachHang kh : listkh) {
@@ -61,50 +64,50 @@ void fillTable(List<KhachHang> listkh) {
     }
 
     KhachHang readForm() throws ParseException {
-        int id = Integer.parseInt(txtMaKH.getText());
-        String name = txtHoTen.getText();
-        String phone = txtSDT.getText();
+        int id = Integer.parseInt(txtIDKH.getText());
+        String name = txtName.getText();
+        String phone = txtPhone.getText();
         Boolean gender = cboGender.getSelectedIndex() == 1;
         String email = txtEmail.getText();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String cB = txtNgayTao.getText();
+        String cB = txtCreateAt.getText();
         Date createAt = sdf.parse(cB);
-        String uB = txtNgaySua.getText();
+        String uB = txtUpdateAt.getText();
         Date updateAt = sdf.parse(uB);
         String address = cboAddress.getSelectedItem().toString();
-        return new KhachHang(id, name, phone, gender, email, createAt, updateAt, address);
+        return new KhachHang(id, name, gender, phone, email, createAt, updateAt, address);
     }
 
     void clearForm() {
-        txtMaKH.setText("");
-        txtHoTen.setText("");
+        txtIDKH.setText("");
+        txtName.setText("");
         txtEmail.setText("");
-        txtNgaySua.setText("");
-        txtNgayTao.setText("");
-        txtSDT.setText("");
+        txtUpdateAt.setText("");
+        txtCreateAt.setText("");
+        txtPhone.setText("");
     }
 
     void showData(int index) {
         KhachHang kh = khs.getAll().get(index);
-        txtMaKH.setText(String.valueOf(kh.getId()));
-        txtHoTen.setText(kh.getName());
-        txtSDT.setText(kh.getPhone());
+        txtIDKH.setText(String.valueOf(kh.getId()));
+        txtName.setText(kh.getName());
+        txtPhone.setText(kh.getPhone());
         txtEmail.setText(kh.getEmail());
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date dateU = kh.getUpdateAt();
-        txtNgaySua.setText(sdf.format(dateU));
+        txtUpdateAt.setText(sdf.format(dateU));
         Date dateC = kh.getCreateAt();
-        txtNgayTao.setText(sdf.format(dateC));
+        txtCreateAt.setText(sdf.format(dateC));
         cboGender.setSelectedItem(kh.isGender() ? "Nữ" : "Nam");
         cboAddress.setSelectedItem(kh.getCity());
     }
 
     boolean testData() {
-        if (txtHoTen.getText().isEmpty()) {
+        if (txtName.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Không được bỏ trống họ tên khách hàng !");
             return false;
         } else {
-            if (!txtHoTen.getText().matches("[a-zA-Z ]+")) {
+            if (!txtName.getText().matches("[a-zA-Z ]+")) {
                 JOptionPane.showMessageDialog(this, "Không đúng định dạng tên !");
                 return false;
             }
@@ -118,25 +121,25 @@ void fillTable(List<KhachHang> listkh) {
                 return false;
             }
         }
-        if (txtNgaySua.getText().isEmpty()) {
+        if (txtUpdateAt.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Không được bỏ trống ngày sửa !");
             return false;
         } else {
-            if (!txtNgaySua.getText().matches("^(1[0-2]|0[1-9])/(3[01]|[12][0-9]|0[1-9])/[0-9]{4}$")) {
+            if (!txtUpdateAt.getText().matches("^(1[0-2]|0[1-9])/(3[01]|[12][0-9]|0[1-9])/[0-9]{4}$")) {
                 JOptionPane.showMessageDialog(this, "Không đúng định dạng ngày !");
                 return false;
             }
         }
-        if (txtNgayTao.getText().isEmpty()) {
+        if (txtCreateAt.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Không được bỏ trống ngày tạo !");
             return false;
         } else {
-            if (!txtNgayTao.getText().matches("^(1[0-2]|0[1-9])/(3[01]|[12][0-9]|0[1-9])/[0-9]{4}$")) {
+            if (!txtCreateAt.getText().matches("^(1[0-2]|0[1-9])/(3[01]|[12][0-9]|0[1-9])/[0-9]{4}$")) {
                 JOptionPane.showMessageDialog(this, "Không đúng định dạng ngày !");
                 return false;
             }
         }
-        if (txtSDT.getText().isEmpty()) {
+        if (txtPhone.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Không bỏ trống số điện thoại !");
             return false;
         }
@@ -148,6 +151,7 @@ void fillTable(List<KhachHang> listkh) {
 //        }
         return true;
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -540,7 +544,7 @@ void fillTable(List<KhachHang> listkh) {
                     }
                 }
             } catch (ParseException ex) {
-                Logger.getLogger(FKH.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FrameKH.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btnInsertActionPerformed
@@ -557,7 +561,7 @@ void fillTable(List<KhachHang> listkh) {
                     JOptionPane.showMessageDialog(this, "Chỉnh sửa thất bại !");
                 }
             } catch (ParseException ex) {
-                Logger.getLogger(FKH.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FrameKH.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
