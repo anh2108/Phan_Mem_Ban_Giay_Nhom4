@@ -1,11 +1,153 @@
 package duan1_bangiay.View;
-
+import duan1_bangiay.Model.KhachHang;
+import duan1_bangiay.Model.DiaChiService;
+import duan1_bangiay.Service.KhachHangService;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import duan1_bangiay.Model.DiaChi;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 public class FrameKH extends javax.swing.JFrame {
-
+private DefaultTableModel dtm = new DefaultTableModel();
+    private KhachHangService khs = new KhachHangService();
+    private KhachHang kh = new KhachHang();
+    private DiaChiService dcs = new DiaChiService();
+    private DiaChi dc = new DiaChi();
     public FrameKH() {
         initComponents();
+        cboAddress.removeAllItems();
+        String[] dc = {
+            "Hà Nội",
+            "Hồ Chí Minh",
+            "Vĩnh Phúc",
+            "Hà Nam",
+            "Hải Phòng",
+            "Thanh Hoá",
+            "Quảng Ninh"
+        };
+        for (String adr : dc) {
+            cboAddress.addItem(adr);
+        }
+        cboGender.removeAllItems();
+        String[] gd = {
+            "Nam",
+            "Nữ"
+        };
+        for (String gt : gd) {
+            cboGender.addItem(gt);
+        }
+        fillTable(khs.getAll());
+    }
+void fillTable(List<KhachHang> listkh) {
+        dtm = (DefaultTableModel) tblQLKH.getModel();
+        dtm.setRowCount(0);
+        for (KhachHang kh : listkh) {
+            Object[] row = {
+                kh.getId(),
+                kh.getName(),
+                kh.getPhone(),
+                kh.isGender() ? "Nữ" : "Nam",
+                kh.getEmail(),
+                kh.getCity(),
+                kh.getCreateAt(),
+                kh.getUpdateAt()
+            };
+            dtm.addRow(row);
+        }
     }
 
+    KhachHang readForm() throws ParseException {
+        int id = Integer.parseInt(txtMaKH.getText());
+        String name = txtHoTen.getText();
+        String phone = txtSDT.getText();
+        Boolean gender = cboGender.getSelectedIndex() == 1;
+        String email = txtEmail.getText();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String cB = txtNgayTao.getText();
+        Date createAt = sdf.parse(cB);
+        String uB = txtNgaySua.getText();
+        Date updateAt = sdf.parse(uB);
+        String address = cboAddress.getSelectedItem().toString();
+        return new KhachHang(id, name, phone, gender, email, createAt, updateAt, address);
+    }
+
+    void clearForm() {
+        txtMaKH.setText("");
+        txtHoTen.setText("");
+        txtEmail.setText("");
+        txtNgaySua.setText("");
+        txtNgayTao.setText("");
+        txtSDT.setText("");
+    }
+
+    void showData(int index) {
+        KhachHang kh = khs.getAll().get(index);
+        txtMaKH.setText(String.valueOf(kh.getId()));
+        txtHoTen.setText(kh.getName());
+        txtSDT.setText(kh.getPhone());
+        txtEmail.setText(kh.getEmail());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date dateU = kh.getUpdateAt();
+        txtNgaySua.setText(sdf.format(dateU));
+        Date dateC = kh.getCreateAt();
+        txtNgayTao.setText(sdf.format(dateC));
+        cboGender.setSelectedItem(kh.isGender() ? "Nữ" : "Nam");
+        cboAddress.setSelectedItem(kh.getCity());
+    }
+
+    boolean testData() {
+        if (txtHoTen.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không được bỏ trống họ tên khách hàng !");
+            return false;
+        } else {
+            if (!txtHoTen.getText().matches("[a-zA-Z ]+")) {
+                JOptionPane.showMessageDialog(this, "Không đúng định dạng tên !");
+                return false;
+            }
+        }
+        if (txtEmail.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không được bỏ trống email !");
+            return false;
+        } else {
+            if (!txtEmail.getText().matches("^(.+)@(.+)$")) {
+                JOptionPane.showMessageDialog(this, "Không đúng định dạng email !");
+                return false;
+            }
+        }
+        if (txtNgaySua.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không được bỏ trống ngày sửa !");
+            return false;
+        } else {
+            if (!txtNgaySua.getText().matches("^(1[0-2]|0[1-9])/(3[01]|[12][0-9]|0[1-9])/[0-9]{4}$")) {
+                JOptionPane.showMessageDialog(this, "Không đúng định dạng ngày !");
+                return false;
+            }
+        }
+        if (txtNgayTao.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không được bỏ trống ngày tạo !");
+            return false;
+        } else {
+            if (!txtNgayTao.getText().matches("^(1[0-2]|0[1-9])/(3[01]|[12][0-9]|0[1-9])/[0-9]{4}$")) {
+                JOptionPane.showMessageDialog(this, "Không đúng định dạng ngày !");
+                return false;
+            }
+        }
+        if (txtSDT.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không bỏ trống số điện thoại !");
+            return false;
+        }
+//        else {
+//            if (!txtHoTen.getText().matches("^\\d{10}$")) {
+//                JOptionPane.showMessageDialog(this, "Không đúng định dạng số điện thoại !");
+//                return false;
+//            }
+//        }
+        return true;
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -155,10 +297,20 @@ public class FrameKH extends javax.swing.JFrame {
                 "Mã KH", "Họ tên", "SĐT", "Email", "Giới tính", "Ngày tạo", "Ngày sửa", "Địa chỉ"
             }
         ));
+        tblQLKH.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblQLKHMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblQLKH);
 
         btnReset.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnReset.setText("Làm mới");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
 
         btnInsert.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnInsert.setText("Thêm thông tin");
@@ -374,15 +526,50 @@ public class FrameKH extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
-        // TODO add your handling code here:
+        if (testData()) {
+            try {
+                KhachHang kh = this.readForm();
+                if (khs.getKH(kh.getId()) != null) {
+                    JOptionPane.showMessageDialog(this, "Trùng mã KH !");
+                } else {
+                    if (khs.insert(kh) > 0) {
+                        JOptionPane.showMessageDialog(this, "Thêm thành công khách hàng !");
+                        this.fillTable(khs.getAll());
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Thêm thất bại !");
+                    }
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(FKH.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
+        if (testData()) {
+            try {
+                KhachHang kh = this.readForm();
+                int id = tblQLKH.getSelectedRow();
+                if (khs.update(kh, id) > 0) {
+                    JOptionPane.showMessageDialog(this, "Chỉnh sửa thành công khách hàng !");
+                    this.fillTable(khs.getAll());
+                } else {
+                    JOptionPane.showMessageDialog(this, "Chỉnh sửa thất bại !");
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(FKH.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+        int id = tblQLKH.getSelectedRow();
+        if (khs.delete(id) > 0) {
+            JOptionPane.showMessageDialog(this, "Xoá thành công khách hàng !");
+            this.fillTable(khs.getAll());
+        } else {
+            JOptionPane.showMessageDialog(this, "Xoá thất bại !");
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
@@ -396,6 +583,15 @@ public class FrameKH extends javax.swing.JFrame {
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnLastActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        this.clearForm();
+    }//GEN-LAST:event_btnResetActionPerformed
+
+    private void tblQLKHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQLKHMouseClicked
+        int index = tblQLKH.getSelectedRow();
+        this.showData(index);
+    }//GEN-LAST:event_tblQLKHMouseClicked
 
     /**
      * @param args the command line arguments
