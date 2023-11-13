@@ -1,8 +1,215 @@
 package duan1_bangiay.View;
+
+import duan1_bangiay.Model.DiaChi;
+import duan1_bangiay.Model.KhachHang;
+import duan1_bangiay.Service.KhachHangService;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 public class PanelKhachHang extends javax.swing.JPanel {
+
+    private DefaultTableModel dtm = new DefaultTableModel();
+    private KhachHangService khs = new KhachHangService();
+    private KhachHang kh = new KhachHang();
+    private DiaChi dc = new DiaChi();
+    private int row = -1;
+
     public PanelKhachHang() {
         initComponents();
+        cboAddress.removeAllItems();
+        String[] dc = {
+            "Hà Nội",
+            "Hồ Chí Minh",
+            "Vĩnh Phúc",
+            "Hà Nam",
+            "Hải Phòng",
+            "Thanh Hoá",
+            "Quảng Ninh"
+        };
+        for (String adr : dc) {
+            cboAddress.addItem(adr);
+        }
+        cboGender.removeAllItems();
+        String[] gd = {
+            "Nam",
+            "Nữ"
+        };
+        for (String gt : gd) {
+            cboGender.addItem(gt);
+        }
+        fillTable(khs.getAll());
     }
+
+    void fillTable(List<KhachHang> listkh) {
+        dtm = (DefaultTableModel) tblQLKH.getModel();
+        dtm.setRowCount(0);
+        for (KhachHang kh : listkh) {
+            Object[] row = {
+                kh.getId(),
+                kh.getName(),
+                kh.getPhone(),
+                kh.isGender() ? "Nữ" : "Nam",
+                kh.getEmail(),
+                kh.getCity(),
+                kh.getCreateAt(),
+                kh.getUpdateAt()
+            };
+            dtm.addRow(row);
+        }
+    }
+
+    KhachHang readForm() throws ParseException {
+        int id = Integer.parseInt(txtIDKH.getText());
+        String name = txtName.getText();
+        String phone = txtPhone.getText();
+        Boolean gender = cboGender.getSelectedIndex() == 1;
+        String email = txtEmail.getText();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String cB = txtCreateAt.getText();
+        Date createAt = sdf.parse(cB);
+        String uB = txtUpdateAt.getText();
+        Date updateAt = sdf.parse(uB);
+        String address = cboAddress.getSelectedItem().toString();
+        return new KhachHang(id, name, gender, phone, email, createAt, updateAt, address);
+    }
+
+    void clearForm() {
+        txtIDKH.setText("");
+        txtName.setText("");
+        txtEmail.setText("");
+        txtUpdateAt.setText("");
+        txtCreateAt.setText("");
+        txtPhone.setText("");
+    }
+
+    void showData(int index) {
+        KhachHang kh = khs.getAll().get(index);
+        txtIDKH.setText(String.valueOf(kh.getId()));
+        txtName.setText(kh.getName());
+        txtPhone.setText(kh.getPhone());
+        txtEmail.setText(kh.getEmail());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date dateU = kh.getUpdateAt();
+        txtUpdateAt.setText(sdf.format(dateU));
+        Date dateC = kh.getCreateAt();
+        txtCreateAt.setText(sdf.format(dateC));
+        cboGender.setSelectedItem(kh.isGender() ? "Nữ" : "Nam");
+        cboAddress.setSelectedItem(kh.getCity());
+    }
+
+//    boolean testData() {
+//        if (txtName.getText().isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Không được bỏ trống họ tên khách hàng !");
+//            return false;
+//        } else {
+//            if (!txtName.getText().matches("[a-zA-Z ]+")) {
+//                JOptionPane.showMessageDialog(this, "Không đúng định dạng tên !");
+//                return false;
+//            }
+//        }
+//        if (txtEmail.getText().isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Không được bỏ trống email !");
+//            return false;
+//        } else {
+//            if (!txtEmail.getText().matches("^(.+)@(.+)$")) {
+//                JOptionPane.showMessageDialog(this, "Không đúng định dạng email !");
+//                return false;
+//            }
+//        }
+//        if (txtUpdateAt.getText().isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Không được bỏ trống ngày sửa !");
+//            return false;
+//        } else {
+//            if (!txtUpdateAt.getText().matches("^(1[0-2]|0[1-9])/(3[01]|[12][0-9]|0[1-9])/[0-9]{4}$")) {
+//                JOptionPane.showMessageDialog(this, "Không đúng định dạng ngày !");
+//                return false;
+//            }
+//        }
+//        if (txtCreateAt.getText().isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Không được bỏ trống ngày tạo !");
+//            return false;
+//        } else {
+//            if (!txtCreateAt.getText().matches("^(1[0-2]|0[1-9])/(3[01]|[12][0-9]|0[1-9])/[0-9]{4}$")) {
+//                JOptionPane.showMessageDialog(this, "Không đúng định dạng ngày !");
+//                return false;
+//            }
+//        }
+//        if (txtPhone.getText().isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Không bỏ trống số điện thoại !");
+//            return false;
+//        }
+//        else {
+//            if (!txtHoTen.getText().matches("^\\d{10}$")) {
+//                JOptionPane.showMessageDialog(this, "Không đúng định dạng số điện thoại !");
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
+    void updateStatus() {
+        boolean edit = (this.row >= 0);
+        boolean first = (this.row == 0);
+        boolean last = (this.row == tblQLKH.getSelectedRow() - 1);
+        txtIDKH.setEditable(!edit);
+//        btnFisrt.setEnabled(edit && !first);
+//        btnPrev.setEnabled(edit && !first);
+//        btnNext.setEnabled(edit && !last);
+//        btnLast.setEnabled(edit && !last);
+    }
+
+    void edit() {
+        int idKH = (int) tblQLKH.getValueAt(this.row, 0);
+        KhachHang kh = khs.getKH(idKH);
+        if (kh != null) {
+            setForm(kh);
+            updateStatus();
+        }
+    }
+
+    private void setForm(KhachHang kh) {
+        txtIDKH.setText(String.valueOf(kh.getId()));
+        txtEmail.setText(kh.getEmail());
+        txtName.setText(kh.getName());
+        txtPhone.setText(kh.getPhone());
+        cboAddress.setSelectedItem(String.valueOf(kh.getCity()));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date dateU = kh.getUpdateAt();
+        txtUpdateAt.setText(sdf.format(dateU));
+        Date dateC = kh.getCreateAt();
+        txtCreateAt.setText(sdf.format(dateC));
+        cboGender.setSelectedItem(kh.isGender() ? "Nữ" : "Nam");
+    }
+
+    void first() {
+        this.row = 0;
+        this.edit();
+    }
+
+    void prev() {
+        if (this.row > 0) {
+            this.row--;
+            this.edit();
+        }
+    }
+
+    void next() {
+        if (this.row < tblQLKH.getRowCount() - 1) {
+            this.row++;
+            this.edit();
+        }
+    }
+
+    void last() {
+        this.row = tblQLKH.getRowCount() - 1;
+        this.edit();
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -138,10 +345,20 @@ public class PanelKhachHang extends javax.swing.JPanel {
                 "Mã KH", "Họ tên", "SĐT", "Email", "Giới tính", "Ngày tạo", "Ngày sửa", "Địa chỉ"
             }
         ));
+        tblQLKH.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblQLKHMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblQLKH);
 
         btnReset.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnReset.setText("Làm mới");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
 
         btnInsert.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnInsert.setText("Thêm thông tin");
@@ -169,6 +386,11 @@ public class PanelKhachHang extends javax.swing.JPanel {
 
         btnFisrt.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnFisrt.setText("|<");
+        btnFisrt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFisrtActionPerformed(evt);
+            }
+        });
 
         btnPrev.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         btnPrev.setText("<<");
@@ -355,28 +577,72 @@ public class PanelKhachHang extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
-        
+        try {
+            KhachHang kh = this.readForm();
+            if (khs.getKH(kh.getId()) != null) {
+                JOptionPane.showMessageDialog(this, "Trùng mã KH !");
+            } else {
+                if (khs.insert(kh) > 0) {
+                    JOptionPane.showMessageDialog(this, "Thêm thành công khách hàng !");
+                    this.fillTable(khs.getAll());
+                } else {
+                    JOptionPane.showMessageDialog(this, "Thêm thất bại !");
+                }
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(PanelKhachHang.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        
+        try {
+            KhachHang kh = this.readForm();
+            int id = tblQLKH.getSelectedRow();
+            if (khs.update(kh, id) > 0) {
+                JOptionPane.showMessageDialog(this, "Chỉnh sửa thành công khách hàng !");
+                this.fillTable(khs.getAll());
+            } else {
+                JOptionPane.showMessageDialog(this, "Chỉnh sửa thất bại !");
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(PanelKhachHang.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        
+        int id = tblQLKH.getSelectedRow();
+        if (khs.delete(id) > 0) {
+            JOptionPane.showMessageDialog(this, "Xoá thành công khách hàng !");
+            this.fillTable(khs.getAll());
+        } else {
+            JOptionPane.showMessageDialog(this, "Xoá thất bại !");
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
-        
+        prev();
     }//GEN-LAST:event_btnPrevActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        
+        next();
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
-        // TODO add your handling code here:
+        last();
     }//GEN-LAST:event_btnLastActionPerformed
+
+    private void btnFisrtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFisrtActionPerformed
+        first();
+    }//GEN-LAST:event_btnFisrtActionPerformed
+
+    private void tblQLKHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQLKHMouseClicked
+        int index = tblQLKH.getSelectedRow();
+        this.showData(index);
+    }//GEN-LAST:event_tblQLKHMouseClicked
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        this.clearForm();
+    }//GEN-LAST:event_btnResetActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
