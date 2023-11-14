@@ -5,8 +5,6 @@ import java.util.Date;
 
 
 public class NhanVien {
-    private int id;
-    private int id_ChucVu;
     private String maNV;
     private String hoTen;
     private String SDT;
@@ -23,9 +21,7 @@ public class NhanVien {
     public NhanVien() {
     }
 
-    public NhanVien(int id, int id_ChucVu, String maNV, String hoTen, String SDT, String email, String matKhau, String maOTP, String diaChi, String trangThai, int nguoiTao, int nguoiSua, Date ngayTao, Date ngaySua) {
-        this.id = id;
-        this.id_ChucVu = id_ChucVu;
+    public NhanVien(String maNV, String hoTen, String SDT, String email, String matKhau, String maOTP, String diaChi, String trangThai, int nguoiTao, int nguoiSua, Date ngayTao, Date ngaySua) {
         this.maNV = maNV;
         this.hoTen = hoTen;
         this.SDT = SDT;
@@ -40,21 +36,6 @@ public class NhanVien {
         this.ngaySua = ngaySua;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId_ChucVu() {
-        return id_ChucVu;
-    }
-
-    public void setId_ChucVu(int id_ChucVu) {
-        this.id_ChucVu = id_ChucVu;
-    }
 
     public String getMaNV() {
         return maNV;
@@ -155,8 +136,6 @@ public class NhanVien {
     
     public Object[] toDataRow(){
            return new Object[]{
-               this.id,
-               this.id_ChucVu,
                this.maNV,
                this.hoTen,
                this.SDT,

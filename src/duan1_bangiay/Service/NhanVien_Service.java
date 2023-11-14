@@ -23,7 +23,7 @@ public class NhanVien_Service {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while(rs.next()){
-                NhanVien nv = new NhanVien(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11), rs.getInt(12), rs.getDate(13), rs.getDate(14));
+                NhanVien nv = new NhanVien(rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11), rs.getInt(12), rs.getDate(13), rs.getDate(14));
                 listnv.add(nv);
             }
             return listnv;
@@ -41,7 +41,7 @@ public class NhanVien_Service {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while(rs.next()){
-                nv = new NhanVien(rs.getInt(1), rs.getInt(2), rs.getString(3),rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11), rs.getInt(12), rs.getDate(13), rs.getDate(14));
+                nv = new NhanVien(rs.getString(3),rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11), rs.getInt(12), rs.getDate(13), rs.getDate(14));
             }
             return nv;
         } catch (Exception e) {
@@ -55,19 +55,18 @@ public class NhanVien_Service {
         try {
             con = DBConnect.getConnection();
             ps = con.prepareStatement(sql);
-            ps.setObject(1, nv.getId_ChucVu());
-            ps.setObject(2, nv.getMaNV());
-            ps.setObject(3, nv.getHoTen());
-            ps.setObject(4, nv.getSDT());
-            ps.setObject(5, nv.getEmail());
-            ps.setObject(6, nv.getMatKhau());
-            ps.setObject(7, nv.getMaOTP());
-            ps.setObject(8, nv.getDiaChi());
-            ps.setObject(9, nv.isTrangThai());
-            ps.setObject(10, nv.getNguoiTao());
-            ps.setObject(11, nv.getNguoiSua());
-            ps.setObject(12, nv.getNgayTao());
-            ps.setObject(13, nv.getNgaySua());
+            ps.setObject(1, nv.getMaNV());
+            ps.setObject(2, nv.getHoTen());
+            ps.setObject(3, nv.getSDT());
+            ps.setObject(4, nv.getEmail());
+            ps.setObject(5, nv.getMatKhau());
+            ps.setObject(6, nv.getMaOTP());
+            ps.setObject(7, nv.getDiaChi());
+            ps.setObject(8, nv.isTrangThai());
+            ps.setObject(9, nv.getNguoiTao());
+            ps.setObject(10, nv.getNguoiSua());
+            ps.setObject(11, nv.getNgayTao());
+            ps.setObject(12, nv.getNgaySua());
             return ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

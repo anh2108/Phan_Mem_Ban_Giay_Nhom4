@@ -30,8 +30,6 @@ public class FormNhanVien extends javax.swing.JPanel {
 
     public void show(int index) {
         NhanVien nv = ser.getAll().get(index);
-        txtID.setText(String.valueOf(nv.getId()));
-        txtId_ChucVu.setText(String.valueOf(nv.getId_ChucVu()));
         txtMaNV.setText(nv.getMaNV());
         txtHoTen.setText(nv.getHoTen());
         txtSdt.setText(nv.getSDT());
@@ -47,8 +45,7 @@ public class FormNhanVien extends javax.swing.JPanel {
     }
 
     public NhanVien readForm() {
-        int id = Integer.parseInt(txtID.getText().toString());
-        int id_ChucVu = Integer.parseInt(txtId_ChucVu.getText().toString());
+
         String maNV = txtMaNV.getText();
         String hoTen = txtHoTen.getText();
         String sdt = txtSdt.getText();
@@ -67,7 +64,7 @@ public class FormNhanVien extends javax.swing.JPanel {
 
         }
 
-        return new NhanVien(id, id_ChucVu, maNV, hoTen, sdt, email, matKhau, maNV, diaChi, trangThai, nguoiTao, nguoiSua, ngayTao, ngayTao);
+        return new NhanVien(maNV, hoTen, sdt, email, matKhau, maNV, diaChi, trangThai, nguoiTao, nguoiSua, ngayTao, ngayTao);
     }
 
     @SuppressWarnings("unchecked")
