@@ -16,14 +16,14 @@ public class NhanVien_Service {
     ResultSet rs = null;
     
     public List<NhanVien> getAll(){
-        sql = "SELECT id, id_ChucVu, MaNhanVien, HoTen, SoDt, Email, MatKhau, MaOtp, DiaChi, TrangThai, NguoiTao, NguoiSua, NgayTao, NgaySua FROM NhanVien";
+        sql = "SELECT NhanVien.id, MaNhanVien, HoTen, SoDt, Email, MatKhau, DiaChi, TrangThai, NhanVien.NgayTao, NhanVien.NgaySua, ChucVu FROM NhanVien JOIN ChucVu ON NhanVien.id_ChucVu = ChucVu.id";
         List<NhanVien> listnv = new ArrayList();
         try {
             con = DBConnect.getConnection();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while(rs.next()){
-                NhanVien nv = new NhanVien(rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11), rs.getInt(12), rs.getDate(13), rs.getDate(14));
+                NhanVien nv = new NhanVien(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getBoolean(8), rs.getDate(9), rs.getDate(10), rs.getBoolean(11));
                 listnv.add(nv);
             }
             return listnv;
@@ -33,15 +33,16 @@ public class NhanVien_Service {
         }
     }
     
-    public NhanVien getNV(int id_ChucVu){
-        sql = "SELECT NhanVien.id_ChucVu, MaNhanVien, HoTen, SoDt, Email, MatKhau, MaOtp, DiaChi, TrangThai, ChucVu.NguoiTao, ChucVu.NguoiSua, ChucVu.NgayTao, ChucVu.NgaySua, ChucVu.ChucVu FROM NhanVien INNER JOIN ChucVu ON NhanVien.id_ChucVu = ChucVu.id WHERE id_ChucVu = ?";
+    public NhanVien getNV(int id){
+        sql = "SELECT NhanVien.id, MaNhanVien, HoTen, SoDt, Email, MatKhau, MaOtp, DiaChi, TrangThai, NhanVien.NgayTao, NhanVien.NgaySua, ChucVu FROM NhanVien JOIN ChucVu ON NhanVien.id_ChucVu = ChucVu.id WHERE NhanVien.id = ?";
         NhanVien nv = null;
         try {
             con = DBConnect.getConnection();
             ps = con.prepareStatement(sql);
+            ps.setObject(1, id);
             rs = ps.executeQuery();
             while(rs.next()){
-                nv = new NhanVien(rs.getString(3),rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getInt(11), rs.getInt(12), rs.getDate(13), rs.getDate(14));
+                nv = new NhanVien(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getBoolean(8), rs.getDate(9), rs.getDate(10), rs.getBoolean(11));
             }
             return nv;
         } catch (Exception e) {
@@ -51,7 +52,7 @@ public class NhanVien_Service {
     }
     
     public int insert (NhanVien nv){
-        sql = "INSERT INTO NhanVien (id_ChucVu = ?, MaNhanVien, HoTen, SoDt, Email, MatKhau, MaOtp, DiaChi, TrangThai, NguoiTao, NguoiSua, NgayTao, NgaySua) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        sql = "INSERT INTO NhanVien (id_ChucVu, MaNhanVien, HoTen, SoDt, Email, MatKhau, DiaChi, TrangThai, NguoiTao, NguoiSua, NgayTao, NgaySua) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             con = DBConnect.getConnection();
             ps = con.prepareStatement(sql);
@@ -60,7 +61,6 @@ public class NhanVien_Service {
             ps.setObject(3, nv.getSDT());
             ps.setObject(4, nv.getEmail());
             ps.setObject(5, nv.getMatKhau());
-            ps.setObject(6, nv.getMaOTP());
             ps.setObject(7, nv.getDiaChi());
             ps.setObject(8, nv.isTrangThai());
             ps.setObject(9, nv.getNguoiTao());
@@ -74,7 +74,7 @@ public class NhanVien_Service {
         }
     }
     
-    public int update (int id_ChucVu, NhanVien nv){
+    public int update (int id, NhanVien nv){
         sql = "UPDATE NhanVien SET MaNhanVien = ?, HoTen = ?, SoDt = ?, Email= ?, MatKhau = ?, MaOtp = ?, DiaChi = ?, TrangThai = ?, NguoiTao = ?, NguoiSua = ?, NgayTao = ?, NgaySua = ? WHERE id_ChucVu = ?";
         try {
             con = DBConnect.getConnection();
@@ -90,7 +90,7 @@ public class NhanVien_Service {
             ps.setObject(9, nv.getNguoiSua());
             ps.setObject(10, nv.getNgayTao());
             ps.setObject(11, nv.getNgaySua());
-            ps.setObject(12, id_ChucVu);
+            ps.setObject(12, id);
             return ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,12 +98,12 @@ public class NhanVien_Service {
         }
     }
     
-    public int delete(int id_ChucVu){
-        sql = "DELETE FROM NhanVien WHERE id_ChucVu = ?";
+    public int delete(int id){
+        sql = "DELETE FROM NhanVien WHERE id = ?";
         try {
             con = DBConnect.getConnection();
             ps = con.prepareStatement(sql);
-            ps.setObject(1, id_ChucVu);
+            ps.setObject(1, id);
             return ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

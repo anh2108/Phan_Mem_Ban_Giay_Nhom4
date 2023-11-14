@@ -5,6 +5,8 @@ import java.util.Date;
 
 
 public class NhanVien {
+    private int id;
+    private int id_ChucVu;
     private String maNV;
     private String hoTen;
     private String SDT;
@@ -12,30 +14,45 @@ public class NhanVien {
     private String matKhau;
     private String maOTP;
     private String diaChi;
-    private String trangThai;
+    private boolean trangThai;
     private int nguoiTao;
     private int nguoiSua;
     private Date ngayTao;
     private Date ngaySua;
+    private boolean chucVu;
 
     public NhanVien() {
     }
 
-    public NhanVien(String maNV, String hoTen, String SDT, String email, String matKhau, String maOTP, String diaChi, String trangThai, int nguoiTao, int nguoiSua, Date ngayTao, Date ngaySua) {
+    public NhanVien(int id, String maNV, String hoTen, String SDT, String email, String matKhau, String diaChi, boolean trangThai, Date ngayTao, Date ngaySua, boolean chucVu) {
+        this.id = id;
         this.maNV = maNV;
         this.hoTen = hoTen;
         this.SDT = SDT;
         this.email = email;
         this.matKhau = matKhau;
-        this.maOTP = maOTP;
         this.diaChi = diaChi;
         this.trangThai = trangThai;
-        this.nguoiTao = nguoiTao;
-        this.nguoiSua = nguoiSua;
         this.ngayTao = ngayTao;
         this.ngaySua = ngaySua;
+        this.chucVu = chucVu;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId_ChucVu() {
+        return id_ChucVu;
+    }
+
+    public void setId_ChucVu(int id_ChucVu) {
+        this.id_ChucVu = id_ChucVu;
+    }
 
     public String getMaNV() {
         return maNV;
@@ -93,11 +110,11 @@ public class NhanVien {
         this.diaChi = diaChi;
     }
 
-    public String isTrangThai() {
+    public boolean isTrangThai() {
         return trangThai;
     }
 
-    public void setTrangThai(String trangThai) {
+    public void setTrangThai(boolean trangThai) {
         this.trangThai = trangThai;
     }
 
@@ -133,6 +150,14 @@ public class NhanVien {
         this.ngaySua = ngaySua;
     }
 
+    public boolean isChucVu() {
+        return chucVu;
+    }
+
+    public void setChucVu(boolean chucVu) {
+        this.chucVu = chucVu;
+    }
+
     
     public Object[] toDataRow(){
            return new Object[]{
@@ -141,13 +166,11 @@ public class NhanVien {
                this.SDT,
                this.email, 
                this.matKhau, 
-               this.maOTP,
                this.diaChi, 
                this.trangThai,
-               this.nguoiTao,
-               this.nguoiSua,
                this.ngayTao,
-               this.ngaySua
+               this.ngaySua,
+               this.chucVu
            };
     }
 }
