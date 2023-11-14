@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package test_du_an_1.swing;
+package swing;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
