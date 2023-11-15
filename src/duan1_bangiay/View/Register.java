@@ -5,13 +5,24 @@
  */
 package duan1_bangiay.View;
 
+import duan1_bangiay.Repository.Forgotpass_Repo;
 import java.awt.event.ActionListener;
+import java.util.Properties;
+import java.util.Random;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author RAVEN
  */
 public class Register extends javax.swing.JPanel {
+
+    Forgotpass_Repo FogotRepo = new Forgotpass_Repo();
 
     /**
      * Creates new form Login
@@ -26,6 +37,30 @@ public class Register extends javax.swing.JPanel {
 
     public void addEventBackLogin(ActionListener event) {
         cmdBackLogin.addActionListener(event);
+    }
+
+    public boolean checkEmail() {
+        String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+        String mail = txtmail.getText();
+        if (mail.matches(EMAIL_REGEX) == false) {
+            JOptionPane.showMessageDialog(this, "Email sai định dạng!");
+            return false;
+        }
+        if (mail.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Bạn cần nhập vào Email!");
+            return false;
+        }
+        if (FogotRepo.selectEmail(mail) < 0) {
+            JOptionPane.showMessageDialog(this, "Email chưa được dăng kí với nhan viên nào!");
+            return false;
+        }
+        return true;
+    }
+
+    public String ramdom() {
+        Random rd = new Random();
+        int numbercode = rd.nextInt(10000) + 1000;
+        return String.valueOf(numbercode);
     }
 
     /**
@@ -46,7 +81,7 @@ public class Register extends javax.swing.JPanel {
         cmdBackLogin = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         txtPass1 = new swing.MyPassword();
-        txtUser1 = new swing.MyTextField();
+        txtmail = new swing.MyTextField();
         jLabel5 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -63,6 +98,11 @@ public class Register extends javax.swing.JPanel {
         myButton1.setBackground(new java.awt.Color(125, 229, 251));
         myButton1.setForeground(new java.awt.Color(40, 40, 40));
         myButton1.setText("Login");
+        myButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton1ActionPerformed(evt);
+            }
+        });
 
         cmdBackLogin.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         cmdBackLogin.setForeground(new java.awt.Color(30, 122, 236));
@@ -91,7 +131,7 @@ public class Register extends javax.swing.JPanel {
                     .addComponent(cmdBackLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel4)
                     .addComponent(txtPass1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtUser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -114,7 +154,7 @@ public class Register extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(txtUser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(myButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
@@ -122,6 +162,48 @@ public class Register extends javax.swing.JPanel {
                 .addGap(30, 30, 30))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    String code;
+    String to;
+
+    private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton1ActionPerformed
+        
+        if (!checkEmail()) {
+            return;
+        } else {
+            try {
+
+                Properties p = new Properties();
+                p.put("mail.smtp.auth", "true");
+                p.put("mail.smtp.starttls.enable", "true");
+                p.put("mail.smtp.host", "smtp.office365.com");
+                p.put("mail.smtp.port", 587);
+                // Email gửi 
+                String username = "anhnhph40387@fpt.edu.vn";
+                String password = "vrgpkogcovwokifq";
+                Session s = Session.getInstance(p,
+                        new javax.mail.Authenticator() {
+                    protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+                        return new javax.mail.PasswordAuthentication(username, password);
+                    }
+                });
+
+                String from = username;
+                to = txtmail.getText();// tài khoản otp gửi đến
+                code = ramdom();
+
+                Message msg = new MimeMessage(s);
+                msg.setFrom(new InternetAddress(from));
+                msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+
+                Transport.send(msg);
+                
+                JOptionPane.showInputDialog("Điền vào mã OTP được gửi về email của bạn!");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }//GEN-LAST:event_myButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -135,6 +217,6 @@ public class Register extends javax.swing.JPanel {
     private swing.MyPassword txtPass;
     private swing.MyPassword txtPass1;
     private swing.MyTextField txtUser;
-    private swing.MyTextField txtUser1;
+    private swing.MyTextField txtmail;
     // End of variables declaration//GEN-END:variables
 }

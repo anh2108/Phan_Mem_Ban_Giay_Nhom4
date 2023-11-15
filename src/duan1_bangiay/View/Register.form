@@ -34,7 +34,7 @@
                   <Component id="cmdBackLogin" max="32767" attributes="0"/>
                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                   <Component id="txtPass1" max="32767" attributes="0"/>
-                  <Component id="txtUser1" alignment="0" max="32767" attributes="0"/>
+                  <Component id="txtmail" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -60,7 +60,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel5" min="-2" pref="24" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Component id="txtUser1" min="-2" max="-2" attributes="0"/>
+              <Component id="txtmail" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
               <Component id="myButton1" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="50" max="32767" attributes="0"/>
@@ -107,6 +107,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Login"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="myButton1ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="cmdBackLogin">
       <Properties>
@@ -130,7 +133,7 @@
     </Component>
     <Component class="swing.MyPassword" name="txtPass1">
     </Component>
-    <Component class="swing.MyTextField" name="txtUser1">
+    <Component class="swing.MyTextField" name="txtmail">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>

@@ -5,14 +5,17 @@
  */
 package duan1_bangiay.View;
 
+import duan1_bangiay.Model.Login_Model;
+import duan1_bangiay.Repository.Login_Repo;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author RAVEN
  */
 public class Login extends javax.swing.JPanel {
-
+    private static Login_Repo lgRepo =new Login_Repo();
     /**
      * Creates new form Login
      */
@@ -26,6 +29,16 @@ public class Login extends javax.swing.JPanel {
 
     public void addEventRegister(ActionListener event) {
         cmdRegister.addActionListener(event);
+    }
+    
+    public String returnChucVu(){
+        Login_Model lg = lgRepo.getDangnhap(txtUser.getText(),txtPass.getText());
+        if(lg.getChucVu()==0){
+            return "Quản lí";
+        }else if(lg.getChucVu()==1){
+            return "Nhân viên";
+        }
+        return null;
     }
 
     /**
@@ -54,11 +67,22 @@ public class Login extends javax.swing.JPanel {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Login");
 
+        txtPass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPassKeyPressed(evt);
+            }
+        });
+
         jLabel3.setText("Password");
 
         myButton1.setBackground(new java.awt.Color(125, 229, 251));
         myButton1.setForeground(new java.awt.Color(40, 40, 40));
         myButton1.setText("Login");
+        myButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton1ActionPerformed(evt);
+            }
+        });
 
         cmdRegister.setFont(new java.awt.Font("sansserif", 1, 12)); // NOI18N
         cmdRegister.setForeground(new java.awt.Color(30, 122, 236));
@@ -102,6 +126,50 @@ public class Login extends javax.swing.JPanel {
                 .addGap(30, 30, 30))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton1ActionPerformed
+        if(txtUser.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this,"Nhập vào tài khoản!");
+            return;
+        }
+        if(txtPass.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this,"Nhập vào mật khẩu!");
+            return;
+        }
+        Login_Model lg = lgRepo.getDangnhap(txtUser.getText(), txtPass.getText());
+        if(lg == null){
+            JOptionPane.showMessageDialog(this,"Tài khoản không tồn tại! Vui lòng xem lại thông tin!");
+            txtUser.setText("");
+            txtPass.setText("");
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Đăng nhập thành công với tư cách: "+returnChucVu());
+            
+        }
+    }//GEN-LAST:event_myButton1ActionPerformed
+
+    private void txtPassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPassKeyPressed
+       if(evt.getKeyCode()== 10){
+            if(txtUser.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this,"Nhập vào tài khoản!");
+            return;
+        }
+        if(txtPass.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this,"Nhập vào mật khẩu!");
+            return;
+        }
+        Login_Model lg = lgRepo.getDangnhap(txtUser.getText(), txtPass.getText());
+        if(lg == null){
+            JOptionPane.showMessageDialog(this,"Tài khoản không tồn tại! Vui lòng xem lại thông tin!");
+            txtUser.setText("");
+            txtPass.setText("");
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Đăng nhập thành công với tư cách: "+returnChucVu());
+            
+        }
+       }
+    }//GEN-LAST:event_txtPassKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
