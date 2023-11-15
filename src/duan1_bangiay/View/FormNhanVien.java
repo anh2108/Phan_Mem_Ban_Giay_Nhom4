@@ -92,9 +92,10 @@ public class FormNhanVien extends javax.swing.JPanel {
         jLabel20 = new javax.swing.JLabel();
         txtNgayTao = new javax.swing.JTextField();
         txtNgaySua = new javax.swing.JTextField();
-        cboChucVu = new javax.swing.JComboBox<>();
         rdoDangLam = new javax.swing.JRadioButton();
         rdoDaNghiViec = new javax.swing.JRadioButton();
+        rdoNhanVien = new javax.swing.JRadioButton();
+        rdoQuanLy = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbNhanVien = new javax.swing.JTable();
@@ -186,8 +187,6 @@ public class FormNhanVien extends javax.swing.JPanel {
 
         txtNgaySua.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        cboChucVu.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-
         rdoDangLam.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         rdoDangLam.setText("Đang làm");
 
@@ -198,6 +197,12 @@ public class FormNhanVien extends javax.swing.JPanel {
                 rdoDaNghiViecActionPerformed(evt);
             }
         });
+
+        rdoNhanVien.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        rdoNhanVien.setText("Nhân viên");
+
+        rdoQuanLy.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        rdoQuanLy.setText("Quản lý");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -249,19 +254,25 @@ public class FormNhanVien extends javax.swing.JPanel {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(68, 68, 68)
                         .addComponent(btnReset)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(rdoDangLam)
-                                .addGap(23, 23, 23)
-                                .addComponent(rdoDaNghiViec))
-                            .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNgayTao, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNgaySua, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cboChucVu, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(15, 15, 15))))
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addComponent(rdoDangLam)
+                                        .addGap(23, 23, 23)
+                                        .addComponent(rdoDaNghiViec))
+                                    .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNgayTao, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtNgaySua, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(15, 15, 15))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(rdoNhanVien)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(rdoQuanLy)
+                                .addGap(35, 35, 35))))))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -299,7 +310,8 @@ public class FormNhanVien extends javax.swing.JPanel {
                     .addComponent(txtMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14)
                     .addComponent(jLabel18)
-                    .addComponent(cboChucVu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rdoNhanVien)
+                    .addComponent(rdoQuanLy))
                 .addGap(27, 27, 27)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnInsert)
@@ -452,7 +464,6 @@ public class FormNhanVien extends javax.swing.JPanel {
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JComboBox<String> cboChucVu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -472,6 +483,8 @@ public class FormNhanVien extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JRadioButton rdoDaNghiViec;
     private javax.swing.JRadioButton rdoDangLam;
+    private javax.swing.JRadioButton rdoNhanVien;
+    private javax.swing.JRadioButton rdoQuanLy;
     private javax.swing.JTable tbNhanVien;
     private javax.swing.JTextField txtDiaChi;
     private javax.swing.JTextField txtEmail;

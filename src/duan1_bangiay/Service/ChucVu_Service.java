@@ -51,7 +51,7 @@ public class ChucVu_Service {
         }
     }
     
-    public int insert (ChucVu cv){
+    public int insertCV (ChucVu cv){
         sql = "INSERT INTO ChucVu (id, ChucVu, NguoiTao, NguoiSua, NgayTao, NgaySua) VALUES (?,?,?,?,?,?)";
         try {
             con = DBConnect.getConnection();
@@ -69,7 +69,7 @@ public class ChucVu_Service {
         }
     }
     
-    public int update (int id, ChucVu cv){
+    public int updateCV (int id, ChucVu cv){
         sql = "UPDATE ChucVu SET ChucVu = ?, NguoiTao = ?, NguoiSua = ?, NgayTao = ?, NgaySua = ? WHERE id = ?";
         try {
             con = DBConnect.getConnection();
@@ -87,7 +87,7 @@ public class ChucVu_Service {
         }
     }
     
-    public int delete (int id){
+    public int deleteCV (int id){
         sql = "DELETE FROM ChucVu WHERE id = ?";
         try {
             con = DBConnect.getConnection();

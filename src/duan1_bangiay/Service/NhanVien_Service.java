@@ -1,6 +1,7 @@
 
 package duan1_bangiay.Service;
 
+import duan1_bangiay.Model.ChucVu;
 import duan1_bangiay.Model.NhanVien;
 import duan1_bangiay.Repository.DBConnect;
 import java.sql.Connection;
@@ -51,7 +52,7 @@ public class NhanVien_Service {
         }
     }
     
-    public int insert (NhanVien nv){
+    public int insertNV (NhanVien nv){
         sql = "INSERT INTO NhanVien (id_ChucVu, MaNhanVien, HoTen, SoDt, Email, MatKhau, DiaChi, TrangThai, NguoiTao, NguoiSua, NgayTao, NgaySua) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             con = DBConnect.getConnection();
@@ -74,7 +75,24 @@ public class NhanVien_Service {
         }
     }
     
-    public int update (int id, NhanVien nv){
+    public int insertCV (ChucVu cv){
+        sql = "INSERT INTO ChucVu (id, ChucVu, NguoiTao, NguoiSua, NgayTao, NgaySua) VALUES (?,?,?,?,?,?)";
+        try {
+            con = DBConnect.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setObject(1, cv.getId());
+            ps.setObject(2, cv.isChucVu());
+            ps.setObject(3, cv.getNguoiTao());
+            ps.setObject(4, cv.getNguoiSua());
+            ps.setObject(5, cv.getNgayTao());
+            ps.setObject(6, cv.getNgaySua());
+            return ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+    public int updateNV (int id, NhanVien nv){
         sql = "UPDATE NhanVien SET MaNhanVien = ?, HoTen = ?, SoDt = ?, Email= ?, MatKhau = ?, MaOtp = ?, DiaChi = ?, TrangThai = ?, NguoiTao = ?, NguoiSua = ?, NgayTao = ?, NgaySua = ? WHERE id_ChucVu = ?";
         try {
             con = DBConnect.getConnection();
@@ -98,7 +116,25 @@ public class NhanVien_Service {
         }
     }
     
-    public int delete(int id){
+    public int updateCV (int id, ChucVu cv){
+        sql = "UPDATE ChucVu SET ChucVu = ?, NguoiTao = ?, NguoiSua = ?, NgayTao = ?, NgaySua = ? WHERE id = ?";
+        try {
+            con = DBConnect.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setObject(1, cv.isChucVu());
+            ps.setObject(2, cv.getNguoiTao());
+            ps.setObject(3, cv.getNguoiSua());
+            ps.setObject(4, cv.getNgayTao());
+            ps.setObject(5, cv.getNgaySua());
+            ps.setObject(6, id);
+            return ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+    
+    public int deleteNV (int id){
         sql = "DELETE FROM NhanVien WHERE id = ?";
         try {
             con = DBConnect.getConnection();
