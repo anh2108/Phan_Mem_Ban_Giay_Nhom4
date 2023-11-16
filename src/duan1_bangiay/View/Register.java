@@ -7,9 +7,12 @@ package duan1_bangiay.View;
 
 import duan1_bangiay.Repository.Forgotpass_Repo;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
+import javax.mail.Authenticator;
 import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -57,11 +60,7 @@ public class Register extends javax.swing.JPanel {
         return true;
     }
 
-    public String ramdom() {
-        Random rd = new Random();
-        int numbercode = rd.nextInt(10000) + 1000;
-        return String.valueOf(numbercode);
-    }
+  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -171,37 +170,48 @@ public class Register extends javax.swing.JPanel {
         if (!checkEmail()) {
             return;
         } else {
-            try {
+           
+                 final String from = "anhnhph40387@fpt.edu.vn";
+        final String pass = "vrgpkogcovwokifq";
+        final String to = txtmail.getText();
+        //Properties: khai báo các thuộc tính
+        Properties prop = new Properties();
+        prop.put("mail.smtp.host", "smtp.gmail.com");//SMTP HOST
+        prop.put("mail.smtp.port", "587");//TLS=587,SSL=465
+        prop.put("mail.smtp.auth", "true");
+        prop.put("mail.smtp.starttls.enable", "true");
+        //gửi mail
 
-                Properties p = new Properties();
-                p.put("mail.smtp.auth", "true");
-                p.put("mail.smtp.starttls.enable", "true");
-                p.put("mail.smtp.host", "smtp.office365.com");
-                p.put("mail.smtp.port", 587);
-                // Email gửi 
-                String username = "anhnhph40387@fpt.edu.vn";
-                String password = "vrgpkogcovwokifq";
-                Session s = Session.getInstance(p,
-                        new javax.mail.Authenticator() {
-                    protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-                        return new javax.mail.PasswordAuthentication(username, password);
-                    }
-                });
-
-                String from = username;
-                to = txtmail.getText();// tài khoản otp gửi đến
-                code = ramdom();
-
-                Message msg = new MimeMessage(s);
-                msg.setFrom(new InternetAddress(from));
-                msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-
-                Transport.send(msg);
-                
-                JOptionPane.showInputDialog("Điền vào mã OTP được gửi về email của bạn!");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+        Authenticator auth = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(from, pass);
             }
+
+        };
+        // phiên làm  việc
+        Session session = Session.getInstance(prop, auth);
+        MimeMessage msg = new MimeMessage(session);
+        try {
+            msg.addHeader("Content-type", "text; charset=UTF-8");
+            //người gửi
+            msg.setFrom(from);
+            //người nhận
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
+            //tiêu đề 
+            msg.setSubject("Gửi mật khẩu");
+            //quy định ngày gửi
+            msg.setSentDate(new Date());
+            //quy định email nhận phản hồi
+            //   msg.setReplyTo(null);
+            //nội dung
+            msg.setText("Mật khẩu được đặt lại là: "+txtPass1.getText(),"UTF-8");
+            
+            Transport.send(msg);
+
+        } catch (Exception e) {
+        }
+                
         }
     }//GEN-LAST:event_myButton1ActionPerformed
 
