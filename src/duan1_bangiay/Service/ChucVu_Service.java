@@ -23,7 +23,7 @@ public class ChucVu_Service {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while(rs.next()){
-                ChucVu cv = new ChucVu(rs.getInt(1), rs.getBoolean(2), rs.getInt(3), rs.getInt(4), rs.getDate(5), rs.getDate(6));
+                ChucVu cv = new ChucVu(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getDate(5), rs.getDate(6));
                 listcv.add(cv);
             }
             return listcv;
@@ -42,7 +42,7 @@ public class ChucVu_Service {
             ps.setObject(1, cv.getId());
             rs = ps.executeQuery();
             while(rs.next()){
-                cv = new ChucVu(rs.getInt(1), rs.getBoolean(2), rs.getInt(3), rs.getInt(4), rs.getDate(5), rs.getDate(6));
+                cv = new ChucVu(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4), rs.getDate(5), rs.getDate(6));
             }
             return cv;
         } catch (Exception e) {

@@ -24,7 +24,7 @@ public class NhanVien_Service {
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             while(rs.next()){
-                NhanVien nv = new NhanVien(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getBoolean(8), rs.getDate(9), rs.getDate(10), rs.getBoolean(11));
+                NhanVien nv = new NhanVien(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getDate(9), rs.getDate(10), rs.getBoolean(11));
                 listnv.add(nv);
             }
             return listnv;
@@ -43,7 +43,7 @@ public class NhanVien_Service {
             ps.setObject(1, id);
             rs = ps.executeQuery();
             while(rs.next()){
-                nv = new NhanVien(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getBoolean(8), rs.getDate(9), rs.getDate(10), rs.getBoolean(11));
+                nv = new NhanVien(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getDate(9), rs.getDate(10), rs.getBoolean(11));
             }
             return nv;
         } catch (Exception e) {

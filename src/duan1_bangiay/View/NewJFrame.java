@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -24,11 +25,11 @@ public class NewJFrame extends javax.swing.JFrame {
 
     public NewJFrame() {
         initComponents();
-        fillTable();
+        fillTable(ser.getAll());
     }
 
-    public void fillTable() {
-        List<NhanVien> list = ser.getAll();
+    public void fillTable(List<NhanVien> list) {
+
         model = (DefaultTableModel) tbNhanVien.getModel();
         model.setRowCount(0);
         for (NhanVien nv : list) {
@@ -44,10 +45,12 @@ public class NewJFrame extends javax.swing.JFrame {
         txtEmail.setText(nv.getEmail());
         txtMatKhau.setText(nv.getMatKhau());
         txtDiaChi.setText(nv.getDiaChi());
-        rdoNhanVien.setSelected("1".equals(nv.isTrangThai()));
-        rdoDaNghiViec.setSelected(!("1".equals(nv.isTrangThai())));
+        rdoDangLam.setSelected("1".equals(nv.isTrangThai()));
+        rdoDaNghiViec.setSelected(!"1".equals(nv.isTrangThai()));
         txtNgayTao.setText(String.valueOf(nv.getNgayTao()));
         txtNgaySua.setText(String.valueOf(nv.getNgaySua()));
+        rdoNhanVien.setSelected("1".equals(nv.isChucVu()));
+        rdoQuanLy.setSelected(!"1".equals(nv.isChucVu()));
     }
 
     public NhanVien readForm() {
@@ -66,8 +69,9 @@ public class NewJFrame extends javax.swing.JFrame {
         } catch (Exception e) {
 
         }
-
-       return new NhanVien(WIDTH, maNV, hoTen, sdt, email, matKhau, diaChi, true, ngayTao, ngayTao, true);
+        //String chucVu = rdoNhanVien.isSelected() == true ? "1" : "0";
+        
+        return new NhanVien(WIDTH, maNV, hoTen, sdt, email, matKhau, diaChi, trangThai, ngayTao, ngayTao, true);
     }
 
 
@@ -100,7 +104,7 @@ public class NewJFrame extends javax.swing.JFrame {
         txtEmail = new javax.swing.JTextField();
         txtMatKhau = new javax.swing.JTextField();
         txtDiaChi = new javax.swing.JTextField();
-        rdoDangLam2 = new javax.swing.JRadioButton();
+        rdoDangLam = new javax.swing.JRadioButton();
         rdoDaNghiViec = new javax.swing.JRadioButton();
         txtNgayTao = new javax.swing.JTextField();
         txtNgaySua = new javax.swing.JTextField();
@@ -222,8 +226,8 @@ public class NewJFrame extends javax.swing.JFrame {
 
         txtDiaChi.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        rdoDangLam2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        rdoDangLam2.setText("Đang làm");
+        rdoDangLam.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        rdoDangLam.setText("Đang làm");
 
         rdoDaNghiViec.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         rdoDaNghiViec.setText("Đã nghỉ việc");
@@ -332,7 +336,7 @@ public class NewJFrame extends javax.swing.JFrame {
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addComponent(rdoDangLam2)
+                                        .addComponent(rdoDangLam)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(rdoDaNghiViec))
                                     .addComponent(txtNgayTao, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -358,7 +362,7 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(jLabel20)
                     .addComponent(txtHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rdoDaNghiViec)
-                    .addComponent(rdoDangLam2))
+                    .addComponent(rdoDangLam))
                 .addGap(27, 27, 27)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -478,7 +482,14 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_rdoDaNghiViecActionPerformed
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
-        
+        NhanVien nv = this.readForm();
+        if(ser.insertNV(nv) > 0){
+            JOptionPane.showMessageDialog(this, "Thêm thành công");
+            fillTable(ser.getAll());
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Thêm thất bại");
+        }
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -557,7 +568,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JRadioButton rdoDaNghiViec;
-    private javax.swing.JRadioButton rdoDangLam2;
+    private javax.swing.JRadioButton rdoDangLam;
     private javax.swing.JRadioButton rdoNhanVien;
     private javax.swing.JRadioButton rdoQuanLy;
     private javax.swing.JTable tbDSNV;

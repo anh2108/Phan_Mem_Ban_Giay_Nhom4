@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class ChucVu {
     private int id;
-    private boolean chucVu;
+    private String chucVu;
     private int nguoiTao;
     private int nguoiSua;
     private Date ngayTao;
@@ -14,7 +14,7 @@ public class ChucVu {
     public ChucVu() {
     }
 
-    public ChucVu(int id, boolean chucVu, int nguoiTao, int nguoiSua, Date ngayTao, Date ngaySua) {
+    public ChucVu(int id, String chucVu, int nguoiTao, int nguoiSua, Date ngayTao, Date ngaySua) {
         this.id = id;
         this.chucVu = chucVu;
         this.nguoiTao = nguoiTao;
@@ -31,11 +31,11 @@ public class ChucVu {
         this.id = id;
     }
 
-    public boolean isChucVu() {
+    public String isChucVu() {
         return chucVu;
     }
 
-    public void setChucVu(boolean chucVu) {
+    public void setChucVu(String chucVu) {
         this.chucVu = chucVu;
     }
 
