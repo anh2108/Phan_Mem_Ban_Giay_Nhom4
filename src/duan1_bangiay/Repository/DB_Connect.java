@@ -17,7 +17,7 @@ import java.sql.SQLException;
 public class DB_Connect {
         public static final String HOSTNAME = "localhost";
     public static final String PORT = "1433";
-    public static final String DBNAME = "DA1_BANGIAY";
+    public static final String DBNAME = "DA_BANGIAY";
     public static final String USERNAME = "sa";
     public static final String PASSWORD = "hoaithu";
     private static Connection con;
