@@ -26,9 +26,10 @@ public class HoaDon extends javax.swing.JPanel {
         initComponents();
         fillhoadon(hdRepo.getall());
         filllichsuhoadon(lshdrepo.getall());
+        addcbo();
     }
-    
-     private static HoadonRepo hdRepo = new HoadonRepo();
+
+    private static HoadonRepo hdRepo = new HoadonRepo();
     private static DefaultTableModel model = new DefaultTableModel();
     private static HoadonchitietRepo hdctRepo = new HoadonchitietRepo();
     private static LichsuhoadonRepo lshdrepo = new LichsuhoadonRepo();
@@ -42,16 +43,17 @@ public class HoaDon extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
+        txttimkiem = new javax.swing.JTextField();
+        txtngay = new com.toedter.calendar.JDateChooser();
+        rebochuyenkhoan = new javax.swing.JRadioButton();
+        rbotructiep = new javax.swing.JRadioButton();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbotrangthai = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -84,18 +86,36 @@ public class HoaDon extends javax.swing.JPanel {
 
         jLabel1.setText("Tìm kiếm");
 
-        jRadioButton2.setText("Chuyển khoản");
+        txttimkiem.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txttimkiemCaretUpdate(evt);
+            }
+        });
 
-        jRadioButton1.setText("Trực tiếp");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(rebochuyenkhoan);
+        rebochuyenkhoan.setText("Chuyển khoản");
+        rebochuyenkhoan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                rebochuyenkhoanActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(rbotructiep);
+        rbotructiep.setText("Trực tiếp");
+        rbotructiep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbotructiepActionPerformed(evt);
             }
         });
 
         jLabel4.setText("Hình thức thanh toán");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbotrangthai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbotrangthai.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbotrangthaiItemStateChanged(evt);
+            }
+        });
 
         jLabel2.setText("Trạng thái");
 
@@ -111,17 +131,17 @@ public class HoaDon extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbotrangthai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(82, 82, 82)
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
-                        .addComponent(jRadioButton1)
+                        .addComponent(rbotructiep)
                         .addGap(62, 62, 62)
-                        .addComponent(jRadioButton2)
+                        .addComponent(rebochuyenkhoan)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtngay, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jTextField1)
+                        .addComponent(txttimkiem)
                         .addContainerGap())))
         );
         jPanel3Layout.setVerticalGroup(
@@ -130,15 +150,15 @@ public class HoaDon extends javax.swing.JPanel {
                 .addGap(12, 12, 12)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txttimkiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtngay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jRadioButton2)
-                        .addComponent(jRadioButton1)
+                        .addComponent(rebochuyenkhoan)
+                        .addComponent(rbotructiep)
                         .addComponent(jLabel4)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbotrangthai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -352,16 +372,23 @@ public class HoaDon extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 842, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 785, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
     }// </editor-fold>//GEN-END:initComponents
 
-     public void fillhoadon(ArrayList<Hoa_don> hd) {
+    public void addcbo() {
+        cbotrangthai.removeAllItems();
+        cbotrangthai.addItem("Tất cả");
+        cbotrangthai.addItem("Đã thanh toán");
+        cbotrangthai.addItem("Chưa thanh toán");
+    }
+
+    public void fillhoadon(ArrayList<Hoa_don> hd) {
         model = (DefaultTableModel) tbbanghoadon.getModel();
         model.setRowCount(0);
         int stt = 1;
@@ -407,21 +434,25 @@ public class HoaDon extends javax.swing.JPanel {
         for (Lichsuhoadon l : lshd) {
             Object[] data = {
                 stt++,
-                 l.getMahoadon(),
-                 l.getTennhanvien(),
-                 l.getTenkhachhang(),
-                 l.getThanhtien(),
-                 l.getNgaytao(),
-                 l.getNgaygiao(),
-                 l.getNgaynhan()
+                l.getMahoadon(),
+                l.getTennhanvien(),
+                l.getTenkhachhang(),
+                l.getThanhtien(),
+                l.getNgaytao(),
+                l.getNgaygiao(),
+                l.getNgaynhan()
             };
             model.addRow(data);
         }
     }
-    
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void rbotructiepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbotructiepActionPerformed
+        int ht = rbotructiep.isSelected() == true ? 0 : 1;
+        ArrayList<Hoa_don> hd = hdRepo.getrbo(ht);
+        if (ht != 0) {
+            fillhoadon(hd);
+        }
+    }//GEN-LAST:event_rbotructiepActionPerformed
 
     private void tbbanghoadonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbbanghoadonMouseClicked
         int slt = tbbanghoadon.getSelectedRow();
@@ -444,15 +475,47 @@ public class HoaDon extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void txttimkiemCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txttimkiemCaretUpdate
+        String key = txttimkiem.getText();
+        ArrayList<Hoa_don> hd = hdRepo.gettim(key);
+
+        if (key.isEmpty()) {
+            fillhoadon(hdRepo.getall());
+        } else if (hd == null) {
+            return;
+        } else {
+
+            fillhoadon(hd);
+        }
+    }//GEN-LAST:event_txttimkiemCaretUpdate
+
+    private void cbotrangthaiItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbotrangthaiItemStateChanged
+        int tt = cbotrangthai.getSelectedIndex();
+        if (cbotrangthai.getSelectedIndex() == 0) {
+            fillhoadon(hdRepo.getall());
+        } else if (tt != 0) {
+            fillhoadon(hdRepo.getcbo(tt));
+
+        }
+    }//GEN-LAST:event_cbotrangthaiItemStateChanged
+
+    private void rebochuyenkhoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rebochuyenkhoanActionPerformed
+        int ht = rebochuyenkhoan.isSelected() == true ? 0 : 1;
+        ArrayList<Hoa_don> hd = hdRepo.getrbo(ht);
+        if (ht != 0) {
+            fillhoadon(hd);
+        }
+    }//GEN-LAST:event_rebochuyenkhoanActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> cbotrangthai;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -464,16 +527,17 @@ public class HoaDon extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JRadioButton rbotructiep;
+    private javax.swing.JRadioButton rebochuyenkhoan;
     private javax.swing.JTable tbbanghdct;
     private javax.swing.JTable tbbanghoadon;
     private javax.swing.JTable tblichsuhoadon;
+    private com.toedter.calendar.JDateChooser txtngay;
+    private javax.swing.JTextField txttimkiem;
     // End of variables declaration//GEN-END:variables
 }
