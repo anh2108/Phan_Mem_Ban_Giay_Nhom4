@@ -448,7 +448,7 @@ public class HoaDon extends javax.swing.JPanel {
 
     private void rbotructiepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbotructiepActionPerformed
         int ht = rbotructiep.isSelected() == true ? 0 : 1;
-        ArrayList<Hoa_don> hd = hdRepo.getrbo(ht);
+        ArrayList<Hoa_don> hd = hdRepo.getcbo(ht);
         if (ht != 0) {
             fillhoadon(hd);
         }
