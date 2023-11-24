@@ -17,6 +17,11 @@ public class Forgotpass_Model {
     public Forgotpass_Model() {
     }
 
+    public Forgotpass_Model(String user, String matkhau) {
+        this.user = user;
+        this.matkhau = matkhau;
+    }
+
     public Forgotpass_Model(String user, String matkhau, String email) {
         this.user = user;
         this.matkhau = matkhau;

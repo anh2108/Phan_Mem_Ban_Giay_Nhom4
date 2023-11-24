@@ -5,6 +5,7 @@
  */
 package duan1_bangiay.View;
 
+import duan1_bangiay.Model.Forgotpass_Model;
 import duan1_bangiay.Repository.Forgotpass_Repo;
 import java.awt.event.ActionListener;
 import java.util.Date;
@@ -42,6 +43,13 @@ public class Register extends javax.swing.JPanel {
         cmdBackLogin.addActionListener(event);
     }
 
+    Forgotpass_Model readform() {
+        Forgotpass_Model fg = new Forgotpass_Model();
+        String ma = txtUser.getText();
+        String mk = txtPass1.getText();
+        return new Forgotpass_Model(ma, mk);
+    }
+
     public boolean checkEmail() {
         String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
         String mail = txtmail.getText();
@@ -53,14 +61,12 @@ public class Register extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Bạn cần nhập vào Email!");
             return false;
         }
-        if (FogotRepo.selectEmail(mail) < 0) {
+        if (FogotRepo.selectEmail(mail) == null) {
             JOptionPane.showMessageDialog(this, "Email chưa được dăng kí với nhan viên nào!");
             return false;
         }
         return true;
     }
-
-  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -166,52 +172,65 @@ public class Register extends javax.swing.JPanel {
     String to;
 
     private void myButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton1ActionPerformed
-        
+
+        Forgotpass_Model fg = readform();
+
         if (!checkEmail()) {
             return;
         } else {
-           
-                 final String from = "anhnhph40387@fpt.edu.vn";
-        final String pass = "vrgpkogcovwokifq";
-        final String to = txtmail.getText();
-        //Properties: khai báo các thuộc tính
-        Properties prop = new Properties();
-        prop.put("mail.smtp.host", "smtp.gmail.com");//SMTP HOST
-        prop.put("mail.smtp.port", "587");//TLS=587,SSL=465
-        prop.put("mail.smtp.auth", "true");
-        prop.put("mail.smtp.starttls.enable", "true");
-        //gửi mail
 
-        Authenticator auth = new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(from, pass);
+            if (!FogotRepo.getuser(fg)) {
+                JOptionPane.showMessageDialog(this, "Mã nhân viên không tồn tại!");
+            } else {
+                if (txtPass.getText().equals(txtPass1.getText())) {
+                    if (FogotRepo.updatepass(fg) > 0) {
+                        JOptionPane.showMessageDialog(this, "Đổi mật khẩu thành công!");
+                        final String from = "anhnhph40387@fpt.edu.vn";
+                        final String pass = "vrgpkogcovwokifq";
+                        final String to = txtmail.getText();
+                        //Properties: khai báo các thuộc tính
+                        Properties prop = new Properties();
+                        prop.put("mail.smtp.host", "smtp.gmail.com");//SMTP HOST
+                        prop.put("mail.smtp.port", "587");//TLS=587,SSL=465
+                        prop.put("mail.smtp.auth", "true");
+                        prop.put("mail.smtp.starttls.enable", "true");
+                        //gửi mail
+
+                        Authenticator auth = new Authenticator() {
+                            @Override
+                            protected PasswordAuthentication getPasswordAuthentication() {
+                                return new PasswordAuthentication(from, pass);
+                            }
+
+                        };
+                        // phiên làm  việc
+                        Session session = Session.getInstance(prop, auth);
+                        MimeMessage msg = new MimeMessage(session);
+                        try {
+                            msg.addHeader("Content-type", "text; charset=UTF-8");
+                            //người gửi
+                            msg.setFrom(from);
+                            //người nhận
+                            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
+                            //tiêu đề 
+                            msg.setSubject("Gửi mật khẩu");
+                            //quy định ngày gửi
+                            msg.setSentDate(new Date());
+                            //quy định email nhận phản hồi
+                            //   msg.setReplyTo(null);
+                            //nội dung
+                            msg.setText("Mật khẩu được đặt lại là: " + txtPass1.getText(), "UTF-8");
+
+                            Transport.send(msg);
+
+                        } catch (Exception e) {
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Conform pass world không khớp!");
+                }
             }
 
-        };
-        // phiên làm  việc
-        Session session = Session.getInstance(prop, auth);
-        MimeMessage msg = new MimeMessage(session);
-        try {
-            msg.addHeader("Content-type", "text; charset=UTF-8");
-            //người gửi
-            msg.setFrom(from);
-            //người nhận
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
-            //tiêu đề 
-            msg.setSubject("Gửi mật khẩu");
-            //quy định ngày gửi
-            msg.setSentDate(new Date());
-            //quy định email nhận phản hồi
-            //   msg.setReplyTo(null);
-            //nội dung
-            msg.setText("Mật khẩu được đặt lại là: "+txtPass1.getText(),"UTF-8");
-            
-            Transport.send(msg);
-
-        } catch (Exception e) {
-        }
-                
         }
     }//GEN-LAST:event_myButton1ActionPerformed
 

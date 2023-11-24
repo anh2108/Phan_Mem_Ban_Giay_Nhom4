@@ -15,7 +15,7 @@ public class Login_Repo {
     public Login_Model getDangnhap(String manv,String mk){
         try {
             Connection con = DBconnect.getConnection();
-            String get = ("SELECT NV.SODT, NV.MATKHAU, CV.CHUCVU FROM NHANVIEN AS NV JOIN CHUCVU AS CV ON NV.ID_CHUCVU=CV.ID WHERE NV.MANHANVIEN =? AND NV.MATKHAU=?");
+            String get = ("SELECT NV.SODT, NV.MATKHAU, CV.CHUCVU FROM NHANVIEN AS NV JOIN CHUCVU AS CV ON NV.ID_CHUCVU=CV.ID WHERE NV.Manhanvien =? AND NV.MATKHAU=?");
             PreparedStatement ps = con.prepareStatement(get);
             ps.setString(1,manv);
             ps.setString(2, mk);
